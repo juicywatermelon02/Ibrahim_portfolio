@@ -1,0 +1,26 @@
+'use client';
+
+import React, { useEffect, useRef } from 'react';
+
+export default function CursorGlow() {
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (glowRef.current) {
+        glowRef.current.style.left = `${e.clientX}px`;
+        glowRef.current.style.top = `${e.clientY}px`;
+      }
+    };
+    window.addEventListener('mousemove', move, { passive: true });
+    return () => window.removeEventListener('mousemove', move);
+  }, []);
+
+  return (
+    <div
+      ref={glowRef}
+      className="cursor-glow hidden lg:block"
+      aria-hidden="true"
+    />
+  );
+}
